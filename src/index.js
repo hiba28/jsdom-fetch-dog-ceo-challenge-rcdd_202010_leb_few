@@ -1,27 +1,33 @@
-let breeds = []
-document.addEventListener("DOMContentLoaded",() => {
-  loadImages()
-  loadBreeds()
-})
-function loadImages(){
+let breeds = [];
+
+document.addEventListener('DOMContentLoaded', function () {
+  loadImages();
+  loadBreedOptions();
+});
+
+function loadImages() {
   const imgUrl = "https://dog.ceo/api/breeds/image/random/4"
-  return fetch(imgUrl).then(resp => resp.json()).then(data => {
-      data.message.forEach(image => addImage(image))
+  fetch(imgUrl)
+    .then(res=> res.json())
+    .then(results => {
+      results.message.forEach(image => addImage(image))
     });
 }
-function addImage(imgUrl){
-  const container = document.querySelector("#dog-image-container")
-  const img = document.createElement("img")
-  img.src = imgUrl
-  container.appendChild(img)
+
+function addImage(dogPicUrl) {
+  let container = document.querySelector('#dog-image-container');
+  let newImageEl = document.createElement('img');
+  newImageEl.src = dogPicUrl;
+  container.appendChild(newImageEl);
 }
+
 function loadBreedOptions() {
   const breedUrl = 'https://dog.ceo/api/breeds/list/all'
   fetch(breedUrl)
-    .then(resp => resp.json())
-    .then(res => {
+    .then(res => res.json())
+    .then(results => {
 
-      breeds = Object.keys(res.message);
+      breeds = Object.keys(results.message);
       updateBreedList(breeds);
       addBreedSelectListener();
     });
